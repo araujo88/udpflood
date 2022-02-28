@@ -177,7 +177,7 @@ void *udp_flood(void *ip)
     //  printf("Packet Send. Length : %d \n", iph->tot_len);
     // }
     // sleep for 1 second
-    sleep(1);
+    // sleep(1);
     pthread_mutex_unlock(&mutex);
   }
 }
